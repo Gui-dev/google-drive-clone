@@ -40,7 +40,15 @@ describe('#Routes test suite', () => {
       routes.handler(...params.values())
       expect(params.response.end).toHaveBeenCalledWith('Hello World')
     })
-    it.todo('should set any request with CORS enabled')
+    it('should set any request with CORS enabled', () => {
+      const routes = new Routes()
+      const params = {
+        ...defaultParams
+      }
+      params.request.method = 'inexistent'
+      routes.handler(...params.values())
+      expect(params.response.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Origin', '*')
+    })
     it.todo('given method OPTIONS it should choose options route')
     it.todo('given method GET it should choose get route')
     it.todo('given method POST it should choose post route')
