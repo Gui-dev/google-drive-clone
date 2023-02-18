@@ -57,6 +57,7 @@ describe('#Routes test suite', () => {
       params.request.method = 'OPTIONS'
       await routes.handler(...params.values())
       expect(params.response.writeHead).toHaveBeenCalledWith(204)
+      expect(params.response.end).toHaveBeenCalled()
     })
     it.todo('given method GET it should choose get route')
     it.todo('given method POST it should choose post route')
