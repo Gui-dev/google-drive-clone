@@ -60,6 +60,15 @@ describe('#Routes test suite', () => {
       expect(params.response.end).toHaveBeenCalled()
     })
     it.todo('given method GET it should choose get route')
-    it.todo('given method POST it should choose post route')
+    it('given method POST it should choose post route', async () => {
+      const routes = new Routes()
+      const params = {
+        ...defaultParams
+      }
+      params.request.method = 'POST'
+      jest.spyOn(routes, routes.post.name).mockResolvedValue()
+      await routes.handler(...params.values())
+      expect(routes.post).toHaveBeenCalled()
+    })
   })
 })
