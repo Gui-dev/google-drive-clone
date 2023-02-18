@@ -31,25 +31,33 @@ describe('#Routes test suite', () => {
       },
       values: () => Object.values(defaultParams)
     }
-    it('given an inexistent route it should choose default route', () => {
+    it('given an inexistent route it should choose default route', async() => {
       const routes = new Routes()
       const params = {
         ...defaultParams
       }
       params.request.method = 'inexistent'
-      routes.handler(...params.values())
+      await routes.handler(...params.values())
       expect(params.response.end).toHaveBeenCalledWith('Hello World')
     })
-    it('should set any request with CORS enabled', () => {
+    it('should set any request with CORS enabled', async () => {
       const routes = new Routes()
       const params = {
         ...defaultParams
       }
       params.request.method = 'inexistent'
-      routes.handler(...params.values())
+      await routes.handler(...params.values())
       expect(params.response.setHeader).toHaveBeenCalledWith('Access-Control-Allow-Origin', '*')
     })
-    it.todo('given method OPTIONS it should choose options route')
+    it('given method OPTIONS it should choose options route', async () => {
+      const routes = new Routes()
+      const params = {
+        ...defaultParams
+      }
+      params.request.method = 'OPTIONS'
+      await routes.handler(...params.values())
+      expect(params.response.writeHead).toHaveBeenCalledWith(204)
+    })
     it.todo('given method GET it should choose get route')
     it.todo('given method POST it should choose post route')
   })
