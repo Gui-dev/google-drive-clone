@@ -80,4 +80,8 @@ describe('#Routes test suite', () => {
       expect(routes.post).toHaveBeenCalled()
     })
   })
+
+  describe('#GET', () => {
+    it.skip('given method GET it should list all files downloaded', async () => {})
+  })
 })
