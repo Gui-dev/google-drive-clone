@@ -17,7 +17,7 @@
     "jest": "^29.4.3"
   },
   "dependencies": {
-    "busboy": "^1.6.0",
+    "busboy": "^0.3.1",
     "pino": "^8.10.0",
     "pino-pretty": "^9.2.0",
     "pretty-bytes": "^6.1.0",
