@@ -6,3 +6,6 @@ web/coverage
 
 server/certificates/*
 !server/certificates/.gitkeep
+
+server/downloads/*
+!server/downloads/.gitkeep
