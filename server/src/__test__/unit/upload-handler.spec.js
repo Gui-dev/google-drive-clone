@@ -94,14 +94,28 @@ describe('#UploadHandler', () => {
         downloadsFolder: '/tmp',
         messageTimeDelay: timerDelay
       })
-      const tickNow = TestUtil.getTimeFromDate('2023-02-22 16:45')
+      const tickNow = TestUtil.getTimeFromDate('2023-02-22 16:45:03')
       TestUtil.mockDateNow([tickNow])
-      const lastExecution = TestUtil.getTimeFromDate('2023-02-22 16:42')
+      const lastExecution = TestUtil.getTimeFromDate('2023-02-22 16:45:00')
       const result = uploadHanlder.canExecute(lastExecution)
 
       expect(result).toBeTruthy()
     })
 
-    it.todo('should return false when time isnt later than specified delay')
+    it('should return false when time isnt later than specified delay', async () => {
+      const timerDelay = 3000
+      const uploadHanlder = new UploadHandler({
+        io: {},
+        socketId: '',
+        downloadsFolder: '/tmp',
+        messageTimeDelay: timerDelay
+      })
+      const tickNow = TestUtil.getTimeFromDate('2023-02-22 16:45:02')
+      TestUtil.mockDateNow([tickNow])
+      const lastExecution = TestUtil.getTimeFromDate('2023-02-22 16:45:01')
+      const result = uploadHanlder.canExecute(lastExecution)
+
+      expect(result).toBeFalsy()
+    })
   })
 })
