@@ -66,6 +66,7 @@ describe('#UploadHandler', () => {
       jest.spyOn(ioObj, ioObj.to.name)
       jest.spyOn(ioObj, ioObj.emit.name)
       const uploadHanlder = new UploadHandler({ io: ioObj, socketId: '01', downloadsFolder: '/tmp' })
+      jest.spyOn(uploadHanlder, uploadHanlder.canExecute.name).mockReturnValueOnce(true)
       const messages = ['hello world']
       const source = TestUtil.generateReadableStream(messages)
       const onWrite = jest.fn()
@@ -81,5 +82,26 @@ describe('#UploadHandler', () => {
       expect(onWrite).toBeCalledTimes(messages.length)
       expect(onWrite.mock.calls.join()).toEqual(messages.join())
     })
+  })
+
+  describe('#canExecute', () => {
+
+    it('should return true when time is later than specified delay', async () => {
+      const timerDelay = 1000
+      const uploadHanlder = new UploadHandler({
+        io: {},
+        socketId: '',
+        downloadsFolder: '/tmp',
+        messageTimeDelay: timerDelay
+      })
+      const tickNow = TestUtil.getTimeFromDate('2023-02-22 16:45')
+      TestUtil.mockDateNow([tickNow])
+      const lastExecution = TestUtil.getTimeFromDate('2023-02-22 16:42')
+      const result = uploadHanlder.canExecute(lastExecution)
+
+      expect(result).toBeTruthy()
+    })
+
+    it.todo('should return false when time isnt later than specified delay')
   })
 })
