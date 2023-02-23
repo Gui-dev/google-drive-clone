@@ -82,6 +82,63 @@ describe('#UploadHandler', () => {
       expect(onWrite).toBeCalledTimes(messages.length)
       expect(onWrite.mock.calls.join()).toEqual(messages.join())
     })
+
+    it('given message timerDelay as 2secs it should emit only on message during 2 seconds period', async () => {
+      jest.spyOn(ioObj, ioObj.emit.name)
+      const day = '2023-02-22 16:45'
+      const twoSecondsPeriod = 2000
+      const onFirstLastMessageSent = TestUtil.getTimeFromDate(`${day}:00`) // -> Date.now do this.lastMessagesSent em handleFileBytes
+      const onFirstCanExecute = TestUtil.getTimeFromDate(`${day}:02`) // -> hello chegou
+      const onSecondUpdateLastMessageSent = onFirstCanExecute
+      const onSecondCanExecute = TestUtil.getTimeFromDate(`${day}:03`) // -> segundo hello esta fora da janela de tempo
+      const onThirdCanExecute = TestUtil.getTimeFromDate(`${day}:04`) // -> world
+      TestUtil.mockDateNow([
+        onFirstLastMessageSent,
+        onFirstCanExecute,
+        onSecondUpdateLastMessageSent,
+        onSecondCanExecute,
+        onThirdCanExecute
+      ])
+      const messages = ['hello', 'hello', 'world']
+      const filename = 'filename.avi'
+      const expectedMessageSent = 2
+
+      const source = TestUtil.generateReadableStream(messages)
+      const uploadHanlder = new UploadHandler({
+        io: ioObj,
+        socketId: '01',
+        downloadsFolder: '/tmp',
+        messageTimeDelay: twoSecondsPeriod
+      })
+      await pipeline(
+        source,
+        uploadHanlder.handleFileBytes(filename)
+      )
+
+
+      expect(ioObj.emit).toHaveBeenCalledTimes(expectedMessageSent)
+
+      const [firstCallResult, secondCallResult] = ioObj.emit.mock.calls
+
+      expect(firstCallResult).toEqual(
+        [
+          uploadHanlder.ON_UPLOAD_EVENT,
+          {
+            processedAlready: 'hello'.length,
+            filename
+          }
+        ]
+      )
+      expect(secondCallResult).toEqual(
+        [
+          uploadHanlder.ON_UPLOAD_EVENT,
+          {
+            processedAlready: messages.join('').length,
+            filename
+          }
+        ]
+      )
+    })
   })
 
   describe('#canExecute', () => {
