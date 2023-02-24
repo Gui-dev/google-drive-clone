@@ -1,7 +1,9 @@
 import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, parse } from 'node:url'
+import { pipeline } from 'node:stream/promises'
 
 import { logger } from './logger.js'
+import { UploadHandler } from './upload-handler'
 import { FileHelper } from './file-helper.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -35,8 +37,25 @@ export class Routes {
   }
 
   async post (request, response) {
-    logger.info('post')
-    response.end()
+    const { headers } = request
+    const { query: { socketId } } = parse(request.url, true)
+    const uploadHandler = new UploadHandler({
+      io: this.io,
+      socketId,
+      downloadsFolder: this.downloasdFolder
+    })
+    const onFinish = response => () => {
+      response.writeHead(201)
+      const data = JSON.stringify({ message: 'Files uploaded with success' })
+      response.end(data)
+    }
+    const busboyInstance = uploadHandler.registerEvents(headers, onFinish(response))
+    await pipeline(
+      request,
+      busboyInstance
+    )
+
+    logger.info('Request finished with success!!!')
   }
 
   handler (request, response) {
