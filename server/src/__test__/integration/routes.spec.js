@@ -5,7 +5,6 @@ import { join } from 'node:path'
 import FormData from 'form-data'
 
 import { TestUtil } from './../_util/test-util'
-import { FileHelper } from './../../file-helper'
 import { Routes } from './../../routes'
 import { logger } from './../../logger'
 

@@ -9,12 +9,11 @@ import { FileHelper } from './file-helper.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const defaultDownloadsFolder = resolve(__dirname, '../', 'downloads')
 
-
 export class Routes {
-  io
   constructor (downloasdFolder = defaultDownloadsFolder) {
     this.downloasdFolder = downloasdFolder
     this.fileHelper = FileHelper
+    this.io = {}
   }
 
   setSocketInstance (io) {
