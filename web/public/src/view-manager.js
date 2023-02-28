@@ -5,6 +5,10 @@ export class ViewManager {
     this.fileElem = document.querySelector('#fileElem')
   }
 
+  configureOnFileChange (callback) {
+    this.fileElem.onchange = event => callback(event.target.files)
+  }
+
   configureFileBtnClick () {
     this.newFileBtn.onclick = () => this.fileElem.click()
   }
@@ -53,6 +57,3 @@ export class ViewManager {
     this.tbody.innerHTML = files.map(template).join('')
   }
 }
-
-
-
