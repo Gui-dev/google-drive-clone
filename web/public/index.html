@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="./styles.css">
-    
+
 </head>
 <body>
     <div class="navbar-fixed">
@@ -30,9 +30,14 @@
           </div>
           <div class="nav-wrapper nav-2">
             <ul>
-              <li><button class="waves-effect waves-light btn btn-flat white-text" >New</button>
+              <li>
+                <button
+                  class="waves-effect waves-light btn btn-flat white-text"
+                  id="newFileBtn"
+                >
+                  New
+                </button>
                 <input type="file" id="fileElem" multiple accept="image/video/audio*">
-
               </li>
             </ul>
             <ul class="right">
@@ -56,7 +61,7 @@
         <li><div class="divider"></div></li>
         <li><a href="#"><i class="material-icons">storage</i>Upgrade storage</a></li>
       </ul>
-      
+
       <div class="main">
         <div class="container-fluid" id="drop-area">
 
@@ -71,7 +76,7 @@
                   <th>File Size</th>
               </tr>
             </thead>
-  
+
             <tbody id="tbody">
               <tr>
                 <td><i class="material-icons red600 left">movie</i> Erick-NodeJS-Streams.mp4</td>
@@ -92,10 +97,10 @@
                 <td>5 MB</td>
               </tr>
             </tbody>
-          </table> 
+          </table>
         </div>
       </div>
-      <footer> 
+      <footer>
           <!-- Modal Structure -->
           <div class="row">
             <div id="progress-modal" class="modal bottom-sheet col s10 offset-s10">
@@ -113,10 +118,10 @@
               </div>
             </div>
           </div>
-            
+
           <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js" integrity="sha512-fB746S+jyTdN2LSWbYSGP2amFYId226wpOeV4ApumcDpIttPxvk1ZPOgnwqwQziRAtZkiFJVx9F64GLAtoIlCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-          
+
           <script src="./app.js" type="module"></script>
       </footer>
       </body>
