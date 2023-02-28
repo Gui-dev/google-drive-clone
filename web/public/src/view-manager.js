@@ -3,6 +3,27 @@ export class ViewManager {
     this.tbody = document.querySelector('#tbody')
     this.newFileBtn = document.querySelector('#newFileBtn')
     this.fileElem = document.querySelector('#fileElem')
+    this.progressModal = document.querySelector('#progressModal')
+    this.progressBar = document.querySelector('#progressBar')
+    this.modalInstance = {}
+  }
+
+  configureModal () {
+    this.modalInstance = M.Modal.init(this.progressModal, {
+      opacity: 0,
+      dismissable: false,
+      onOpenEnd() {
+        this.$overlay[0].remove()
+      }
+    })
+  }
+
+  openModal () {
+    this.modalInstance.open()
+  }
+
+  closeModal () {
+    this.modalInstance.close()
   }
 
   configureOnFileChange (callback) {
