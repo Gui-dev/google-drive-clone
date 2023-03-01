@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node 'src/index.js'",
+    "prod": "NODE_ENV=production node 'src/index.js'",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch --runInBand",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules npx jest --no-cache --runInBand --coverage"
