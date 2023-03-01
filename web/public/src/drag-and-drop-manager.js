@@ -2,12 +2,16 @@
 export class DragAndDropManager {
   constructor () {
     this.dropArea = document.querySelector('#dropArea')
+    this.onDropHandler = () => {}
   }
 
-  initialize () {
+  initialize ({ onDropHandler }) {
+    this.onDropHandler = onDropHandler
     this.disableDragAndDropEvents()
     this.enableHighLightOnDrag()
+    this.enableDrop()
   }
+
 
   disableDragAndDropEvents () {
     const events = [
@@ -36,5 +40,14 @@ export class DragAndDropManager {
     events.forEach(eventName => {
       this.dropArea.addEventListener(eventName, highlight, false)
     })
+  }
+
+  enableDrop (event) {
+    const drop = (e) => {
+      this.dropArea.classList.remove('drop-area')
+      const files = e.dataTransfer.files
+      return this.onDropHandler(files)
+    }
+    this.dropArea.addEventListener('drop', drop, false)
   }
 }
