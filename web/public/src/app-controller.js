@@ -10,7 +10,9 @@ export class AppController {
     this.viewManager.configureFileBtnClick()
     this.viewManager.configureModal()
     this.viewManager.configureOnFileChange(this.onFileChange.bind(this))
-    this.dragAndDropManager.initialize()
+    this.dragAndDropManager.initialize({
+      onDropHandler: this.onFileChange.bind(this)
+    })
     this.connectionManager.configureEvents({
       onProgress: this.onProgress.bind(this)
     })
@@ -37,6 +39,7 @@ export class AppController {
   }
 
   async onFileChange (files) {
+    this.uploadingFiles.clear()
     this.viewManager.openModal()
     this.viewManager.updateStatus(0)
     const requests = []
