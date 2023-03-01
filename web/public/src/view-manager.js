@@ -5,6 +5,7 @@ export class ViewManager {
     this.fileElem = document.querySelector('#fileElem')
     this.progressModal = document.querySelector('#progressModal')
     this.progressBar = document.querySelector('#progressBar')
+    this.output = document.querySelector('#output')
     this.modalInstance = {}
   }
 
@@ -24,6 +25,11 @@ export class ViewManager {
 
   closeModal () {
     this.modalInstance.close()
+  }
+
+  updateStatus (size) {
+    this.output.innerHTML = `Uploading in <b>${Math.floor(size)}%</b>`
+    this.progressBar.value = size
   }
 
   configureOnFileChange (callback) {
